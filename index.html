@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./style.css">
+    <script>
+        console.log("Hola mundo.")
+    </script>
+</head>
+
+<body>
+    <div id="contenedor">
+
+        <div id="calculadora">
+            <div class="contenido">
+                <h1>Hidratación Basal</h1>
+                <form id="calculator">
+                    <div>
+                        <p class="item">Completa todos los datos</p>
+                        <label for="peso">Peso del niño (kg)</label>
+                        <input class="item" type="number" id="peso" name="peso" placeholder="Peso">
+                        <p class="item" id="error">* Debe completar todos los datos</p>
+                    </div>
+                    <button id="calcular" type="button" onclick="calculate()">Calcular</button>
+                </form>
+
+                <div id="results">
+                    <!-- <h2>Resultados</h2> -->
+                    <p id="method"></p>
+                    <p id="calculation"></p>
+                    <p id="flu"></p>
+                    <p id="man"></p>
+                </div>
+            </div>
+
+
+            <script>
+                function calculate() {
+                    var peso = parseFloat(document.getElementById('peso').value);
+                    var resultsDiv = document.getElementById('results');
+                    resultsDiv.style.display = 'block';
+
+                    if (peso <= 30) {
+                        var volume = calculateVolume(peso);
+                        var flu = volume / 24;
+                        var man = flu * 1.5;
+
+                        document.getElementById('method').innerText = 'Resultado Método: Holliday-Segar';
+                        document.getElementById('calculation').innerText = 'Resultado Volumen diario: ' + volume + ' cc';
+                        document.getElementById('flu').innerText = 'Resultado Mantenimiento: ' + flu.toFixed(2) + ' cc/hr';
+                        document.getElementById('man').innerText = 'Resultado m+m/2: ' + man.toFixed(2) + ' cc/hr';
+                    } else {
+                        var surfaceArea = ((peso * 4) + 7) / (peso + 90);
+                        var volume1500 = surfaceArea * 1500;
+                        var volume2000 = surfaceArea * 2000;
+
+                        document.getElementById('method').innerText = 'Resultado Método: Superficie Corporal';
+                        document.getElementById('calculation').innerText = 'Resultado Volumen diario (1500): ' + volume1500.toFixed(2) + ' cc';
+                        document.getElementById('flu').innerText = 'Resultado Volumen diario (2000): ' + volume2000.toFixed(2) + ' cc';
+                       
+                    }
+                }
+
+                function calculateVolume(peso) {
+                    if (peso <= 10) {
+                        return peso * 100;
+                    } else if (peso <= 20) {
+                        return 1000 + ((peso - 10) * 50);
+                    } else {
+                        return 1500 + ((peso - 20) * 20);
+                    }
+                }
+            </script>
+        </div>
+        
+        <div id="detalle">
+            <div class="contenido">
+                <h1>¿Como se calcula?</h1>
+                <ul>
+                    <li>De 0kg a 10kg, se calcula 100cc por cada kilo.</li>
+                    <li>Se suman 50cc por cada kilo de peso por arriba de 10kg, hasta 20kg</li>
+                    <li>De 20kg para arriba, se suman 20cc por cada kilo adicional</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
